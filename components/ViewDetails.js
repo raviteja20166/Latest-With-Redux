@@ -14,8 +14,8 @@ class ViewDetails extends React.Component {
 
                 <Image source={{ uri: data.user.path }} style={{width: 250, height: 250}} />
                 <Text style={Styles.textStyle}>Name: {data.user.name}</Text>
-                <Text style={Styles.textStyle}>Email Address: {data.user.Email}</Text>
-                <Text style={Styles.textStyle}>Mobile Number:{data.user.mobile} </Text>
+                <Text style={Styles.textStyle}>Email Address: {data.user.email}</Text>
+                <Text style={Styles.textStyle}>Mobile Number:{data.user.phone} </Text>
 
             </View>
         );
