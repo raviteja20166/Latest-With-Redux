@@ -5,14 +5,15 @@ let initialState = {
     user: {}
 }
 const LoginReducer = (state = initialState, action) => {
+    console.log('action', action)
     switch (action.type) {
         case Actions.LOGIN:
             return {
                 ...state,
                 user: {
                     name: action.name,
-                    mobile: action.mobile,
-                    Email: action.Email,
+                    phone: action.phone,
+                    email: action.email,
                     path: action.path
                 }
             };
