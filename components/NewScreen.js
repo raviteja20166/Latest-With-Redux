@@ -9,9 +9,9 @@ class NewScreen extends Component {
         super(props);
 
         this.state = {
-            Name: '',
-            MobileNumber: '',
-            Email: '',
+            name: '',
+            phone: '',
+            email: '',
             isNameValid: true,
             isEmailValid: true,
             isMobileNumberValid: true,
@@ -21,19 +21,19 @@ class NewScreen extends Component {
 
     saveUserAndOpenCamera = () => {
 
-        const { Name, MobileNumber, Email } = this.state
+        const { name, phone, email } = this.state
         this.props.login({
-            name: Name,
-            mobile: MobileNumber,
-            Email: Email
+            name: name,
+            phone: phone,
+            email: email
         })
         this.props.navigation.navigate('Camera')
     }
-    validateEmail = (Email) => {
+    validateEmail = (email) => {
 
-        console.log('validateEmail', Email)
+        console.log('validateEmail', email)
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(Email);
+        return re.test(email);
     };
     validateMobile = (mobile) => {
         var re = /^[0]?[789]\d{9}$/;
@@ -47,22 +47,23 @@ class NewScreen extends Component {
 
         this.setState({ [property]: value })
 
-        if (property === 'Email') {
+        if (property === 'email') {
             // this.setState({ isEmailValid: this.validateEmail(value) })
             this.setState({ isEmailValid: this.validateEmail(value) })
         }
 
-        if (property === 'Mobile') {
+        if (property === 'phone') {
             this.setState({ isMobileNumberValid: this.validateMobile(value) })
         }
     }
     validateAndnavigate = () => {
-        const { MobileNumber, Email, Name, isNameValid, isEmailValid, isMobileNumberValid } = this.state
-        if (!Name || !Email || !MobileNumber) {
+        const { phone, email, name, isNameValid, isEmailValid, isMobileNumberValid } = this.state
+        console.log(isNameValid, isEmailValid, isMobileNumberValid)
+        if (!name || !email || !phone) {
             return
         }
         else if (isNameValid && isEmailValid && isMobileNumberValid) {
-            this.props.navigation.navigate('Camera')
+            this.saveUserAndOpenCamera()
         }
     }
 
@@ -80,37 +81,33 @@ class NewScreen extends Component {
                     <Text style={styles.TextStyle}>Last thing,</Text>
                     <Text style={{ margin: 30, fontSize: 20, fontWeight: 'bold', color: 'black', marginBottom: 50 }}>We need to know you better.</Text>
 
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', left: 25, paddingBottom: 5 }}>Name</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', left: 25, paddingBottom: 5 }}>name</Text>
 
                     <TextInput
-
                         value={this.state.text}
-                        onChangeText={(text) => this.setState({ text })}
-                        placeholder={'Name'}
-
+                        onChangeText={(text) => this.validate('name', text)}
+                        placeholder={'name'}
                         style={styles.input}
-
-
                     />
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', left: 25, paddingBottom: 5 }}>Email Address</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', left: 25, paddingBottom: 5 }}>email Address</Text>
                     <TextInput
-                        value={this.state.Email}
-                        onChangeText={(Email) => { this.validate('Email', Email) }}
-                        placeholder={'Email Address'}
+                        value={this.state.email}
+                        onChangeText={(email) => { this.validate('email', email) }}
+                        placeholder={'email Address'}
                         style={styles.input}
                     />
                     {!isEmailValid
-                        ? <Text style={{ color: 'red', left: 20, }}>Email is invalid</Text>
+                        ? <Text style={{ color: 'red', left: 20, }}>email is invalid</Text>
                         : null
                     }
 
 
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', left: 25, paddingBottom: 5 }}>MobileNumber</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', left: 25, paddingBottom: 5 }}>phone</Text>
 
                     <TextInput
                         value={this.state.mobileNumber}
-                        onChangeText={(MobileNumber) => { this.validate('Mobile', MobileNumber) }}
-                        placeholder={'MobileNumber'}
+                        onChangeText={(phone) => { this.validate('phone', phone) }}
+                        placeholder={'phone'}
                         style={styles.input}
                         maxLength={10}
                         keyboardType={"numeric"}
@@ -208,8 +205,8 @@ const mapDispatchToProps = (dispatch) => ({
         {
             type: Actions.LOGIN,
             name: user.name,
-            mobile: user.mobileNumber,
-            Email: user.Email
+            phone: user.phone,
+            email: user.email
         }
     ),
 });
